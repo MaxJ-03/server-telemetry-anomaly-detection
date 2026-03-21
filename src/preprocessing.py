@@ -64,3 +64,23 @@ def _create_windows(features, labels, lookback, horizon):
         y.append(int(np.any(future_labels == 1)))
         
     return np.array(x), np.array(y)
+
+def apply_rolling_standardization(data_array, window_size=288):
+    """
+    Applies adaptive rolling standardization to mitigate Data Drift.
+    Normalizes each time step based on the local mean and standard deviation
+    of the preceding trailing window rather than a static historical baseline.
+    """
+    df = pd.DataFrame(data_array)
+    rolling_mean = df.rolling(window=window_size, min_periods=1).mean()
+    rolling_std = df.rolling(window=window_size, min_periods=1).std()
+    
+    # Handling zero standard deviation to prevent division by zero errors
+    rolling_std = rolling_std.replace(0, 1e-6)
+    
+    standardized_df = (df - rolling_mean) / rolling_std
+    
+    # Filling initial null values resulting from the first few periods
+    standardized_df = standardized_df.fillna(0)
+    
+    return standardized_df.values

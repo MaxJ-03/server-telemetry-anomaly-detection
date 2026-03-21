@@ -44,8 +44,12 @@ def get_balanced_loader(X_train, y_train, batch_size=64):
 def train_lstm(model, train_loader, epochs=10, learning_rate=0.001):
     """
     Executes the training loop for the LSTM architecture.
-    Utilizes Binary Cross Entropy with Logits to maintain numerical stability.
+    Utilizes hardware acceleration to reduce computational overhead.
     """
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Executing training on hardware accelerator: {device}")
+    
+    model = model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     criterion = nn.BCEWithLogitsLoss()
     
@@ -53,6 +57,9 @@ def train_lstm(model, train_loader, epochs=10, learning_rate=0.001):
     for epoch in range(epochs):
         total_loss = 0
         for batch_x, batch_y in train_loader:
+            batch_x = batch_x.to(device)
+            batch_y = batch_y.to(device)
+            
             optimizer.zero_grad()
             
             logits = model(batch_x)
@@ -70,17 +77,24 @@ def train_lstm(model, train_loader, epochs=10, learning_rate=0.001):
 def get_lstm_probabilities(model, X_data):
     """
     Extracts the raw probability scores from the trained LSTM.
-    Applies a sigmoid activation to the raw logits for the calibration phase.
+    Maintains device synchronization for inference.
     """
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
     model.eval()
+    
+    from torch.utils.data import DataLoader
+    from src.trainer import ServerMetricsDataset # Ensure Dataset is imported if in same file
+    
     dataset = ServerMetricsDataset(X_data, np.zeros(len(X_data))) 
     loader = DataLoader(dataset, batch_size=256, shuffle=False)
     
     probabilities = []
     with torch.no_grad():
         for batch_x, _ in loader:
+            batch_x = batch_x.to(device)
             logits = model(batch_x)
-            probs = torch.sigmoid(logits).squeeze().numpy()
+            probs = torch.sigmoid(logits).squeeze().cpu().numpy()
             probabilities.extend(probs)
             
     return np.array(probabilities)
