@@ -16,7 +16,9 @@ on:
 jobs:
   evaluate_and_document:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
