@@ -106,9 +106,9 @@ To isolate the cause, I analyzed the telemetry and discovered **Data Drift**. Th
 
 <!-- [[ALERTING_LSTM_LEADERBOARD_END]] -->
 
-<!-- [[LSTM_START]] -->
+<!-- [[ALERTING_LSTM_START]] -->
 
-### LSTM Final Evaluation
+### ALERTING_LSTM Final Evaluation
 | Metric | Precision | Recall | F1-Score | Support |
 | :--- | :--- | :--- | :--- | :--- |
 | **0** | 0.66 | 0.18 | 0.28 | 12115 |
@@ -116,7 +116,7 @@ To isolate the cause, I analyzed the telemetry and discovered **Data Drift**. Th
 | **macro avg** | 0.48 | 0.48 | 0.36 | 17530 |
 | **weighted avg** | 0.55 | 0.37 | 0.33 | 17530 |
 
-<!-- [[LSTM_END]] -->
+<!-- [[ALERTING_LSTM_END]] -->
 
 
 ### Architectural Conclusion: The Labeling Bottleneck
@@ -152,9 +152,9 @@ Because an unsupervised model must strictly learn healthy physics, its execution
 
 <!-- [[PREDICTIVE_LSTM_LEADERBOARD_END]] -->
 
-<!-- [[UNSUPERVISED_LSTM_START]] -->
+<!-- [[PREDICTIVE_LSTM_START]] -->
 
-### UNSUPERVISED_LSTM Final Evaluation
+### PREDICTIVE_LSTM Final Evaluation
 | Metric | Precision | Recall | F1-Score | Support |
 | :--- | :--- | :--- | :--- | :--- |
 | **0** | 0.73 | 0.24 | 0.36 | 12115 |
@@ -162,7 +162,7 @@ Because an unsupervised model must strictly learn healthy physics, its execution
 | **macro avg** | 0.52 | 0.52 | 0.41 | 17530 |
 | **weighted avg** | 0.60 | 0.41 | 0.39 | 17530 |
 
-<!-- [[UNSUPERVISED_LSTM_END]] -->
+<!-- [[PREDICTIVE_LSTM_END]] -->
 
 ## 8. Adapting to a Production Alerting System
 To satisfy the requirements of a real-time production alerting system, the phase two structural paradigm (predictive forecasting combined with continuous residual analysis) must be deployed via a streaming architecture.

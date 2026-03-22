@@ -92,9 +92,9 @@ def update_readme_from_json(json_path="results/best_configurations.json"):
     if "TREE_ENSEMBLE" in data and "metrics" in data["TREE_ENSEMBLE"]:
         inject_metrics_to_readme(data["TREE_ENSEMBLE"]["metrics"], "TREE")      
     if "ALERTING_LSTM" in data and "metrics" in data["ALERTING_LSTM"]:
-        inject_metrics_to_readme(data["ALERTING_LSTM"]["metrics"], "LSTM")      
+        inject_metrics_to_readme(data["ALERTING_LSTM"]["metrics"], "ALERTING_LSTM")      
     if "PREDICTIVE_LSTM" in data and "metrics" in data["PREDICTIVE_LSTM"]:      
-        inject_metrics_to_readme(data["PREDICTIVE_LSTM"]["metrics"], "UNSUPERVISED_LSTM")
+        inject_metrics_to_readme(data["PREDICTIVE_LSTM"]["metrics"], "PREDICTIVE_LSTM")
 
     if "TREE_ENSEMBLE" in data and "top_5_configs" in data["TREE_ENSEMBLE"] and data["TREE_ENSEMBLE"]["top_5_configs"]:
         inject_leaderboard_to_readme(data["TREE_ENSEMBLE"]["top_5_configs"], "TREE")
