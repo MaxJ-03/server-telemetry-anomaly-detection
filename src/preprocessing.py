@@ -8,13 +8,19 @@ def load_psm_data(test_path, label_path):
     The timestamp column is removed to focus strictly on the metric dimensions.
     """
     test_df = pd.read_csv(test_path)
-    if 'timestamp_' in test_df.columns:
+    if 'timestamp_(min)' in test_df.columns:
+        test_df = test_df.drop(columns=['timestamp_(min)'])
+    elif 'timestamp_' in test_df.columns:
         test_df = test_df.drop(columns=['timestamp_'])
-    
+
     labels_df = pd.read_csv(label_path)
-    test_labels = labels_df.values.flatten()
+    if 'label' in labels_df.columns:
+        test_labels = labels_df['label'].values
+    else:
+        test_labels = labels_df.iloc[:, 1].values
+        
     test_array = test_df.values
-    
+
     return test_array, test_labels
 
 def prepare_supervised_data(data_array, labels, window_size=30, horizon=10):

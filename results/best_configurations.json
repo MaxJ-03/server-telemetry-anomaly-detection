@@ -1,0 +1,294 @@
+{
+    "TREE_ENSEMBLE": {
+        "params": {
+            "learning_rate": 0.12895760076723345,
+            "max_depth": 7,
+            "max_iter": 291
+        },
+        "metrics": {
+            "0": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 12115.0
+            },
+            "1": {
+                "precision": 0.30889903023388476,
+                "recall": 1.0,
+                "f1-score": 0.47199825670080625,
+                "support": 5415.0
+            },
+            "accuracy": 0.30889903023388476,
+            "macro avg": {
+                "precision": 0.15444951511694238,
+                "recall": 0.5,
+                "f1-score": 0.23599912835040313,
+                "support": 17530.0
+            },
+            "weighted avg": {
+                "precision": 0.09541861087943446,
+                "recall": 0.30889903023388476,
+                "f1-score": 0.14579980376696325,
+                "support": 17530.0
+            }
+        },
+        "top_5_configs": [
+            {
+                "params": {
+                    "learning_rate": 0.12895760076723345,
+                    "max_depth": 7,
+                    "max_iter": 291
+                },
+                "metrics": {
+                    "Mean CV F1": 0.3962289944889357,
+                    "Mean CV Precision": 0.5819494712910257,
+                    "Mean CV Recall": 0.5634838421409736
+                }
+            },
+            {
+                "params": {
+                    "learning_rate": 0.17645870119155094,
+                    "max_depth": 7,
+                    "max_iter": 176
+                },
+                "metrics": {
+                    "Mean CV F1": 0.3956154056903454,
+                    "Mean CV Precision": 0.5822997522579142,
+                    "Mean CV Recall": 0.5595722193397371
+                }
+            },
+            {
+                "params": {
+                    "learning_rate": 0.020030860432594336,
+                    "max_depth": 3,
+                    "max_iter": 265
+                },
+                "metrics": {
+                    "Mean CV F1": 0.39466630232138383,
+                    "Mean CV Precision": 0.5421496480769216,
+                    "Mean CV Recall": 0.5733731182462286
+                }
+            },
+            {
+                "params": {
+                    "learning_rate": 0.1273072609475722,
+                    "max_depth": 7,
+                    "max_iter": 250
+                },
+                "metrics": {
+                    "Mean CV F1": 0.3939618754630287,
+                    "Mean CV Precision": 0.5849163415349828,
+                    "Mean CV Recall": 0.5608582143345079
+                }
+            },
+            {
+                "params": {
+                    "learning_rate": 0.1325583600483644,
+                    "max_depth": null,
+                    "max_iter": 222
+                },
+                "metrics": {
+                    "Mean CV F1": 0.39343078614352606,
+                    "Mean CV Precision": 0.5754673699081208,
+                    "Mean CV Recall": 0.5578179686327168
+                }
+            }
+        ]
+    },
+    "ALERTING_LSTM": {
+        "params": {
+            "hidden_dim": 128,
+            "learning_rate": 0.01
+        },
+        "metrics": {
+            "0": {
+                "precision": 0.655436447166922,
+                "recall": 0.17664052827073876,
+                "f1-score": 0.27828348504551365,
+                "support": 12115.0
+            },
+            "1": {
+                "precision": 0.3007360672975815,
+                "recall": 0.7922437673130194,
+                "f1-score": 0.43597560975609756,
+                "support": 5415.0
+            },
+            "accuracy": 0.3667997718197376,
+            "macro avg": {
+                "precision": 0.47808625723225173,
+                "recall": 0.48444214779187905,
+                "f1-score": 0.3571295474008056,
+                "support": 17530.0
+            },
+            "weighted avg": {
+                "precision": 0.5458698438016921,
+                "recall": 0.3667997718197376,
+                "f1-score": 0.32699442944413387,
+                "support": 17530.0
+            }
+        },
+        "top_5_configs": [
+            {
+                "params": {
+                    "hidden_dim": 128,
+                    "learning_rate": 0.01
+                },
+                "metric": 0.987156467323286,
+                "metrics": {
+                    "Val BCE Loss": 0.987156467323286,
+                    "Val F1": 0.5547959451945919,
+                    "Val Precision": 0.5584917097561006,
+                    "Val Recall": 0.6386097614042574
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 64,
+                    "learning_rate": 0.01
+                },
+                "metric": 1.1425995274136465,
+                "metrics": {
+                    "Val BCE Loss": 1.1425995274136465,
+                    "Val F1": 0.5616295178877112,
+                    "Val Precision": 0.5622808841460888,
+                    "Val Recall": 0.6440786667943633
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 32,
+                    "learning_rate": 0.01
+                },
+                "metric": 1.3289022057222715,
+                "metrics": {
+                    "Val BCE Loss": 1.3289022057222715,
+                    "Val F1": 0.5128985888944384,
+                    "Val Precision": 0.5267739892203174,
+                    "Val Recall": 0.5629761819078619
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 32,
+                    "learning_rate": 0.005
+                },
+                "metric": 1.3488799767987127,
+                "metrics": {
+                    "Val BCE Loss": 1.3488799767987127,
+                    "Val F1": 0.5339451634927456,
+                    "Val Precision": 0.5406842581308381,
+                    "Val Recall": 0.592551013299978
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 128,
+                    "learning_rate": 0.005
+                },
+                "metric": 1.386452048483804,
+                "metrics": {
+                    "Val BCE Loss": 1.386452048483804,
+                    "Val F1": 0.539986717123083,
+                    "Val Precision": 0.5456930693746259,
+                    "Val Recall": 0.6049257209729062
+                }
+            }
+        ]
+    },
+    "PREDICTIVE_LSTM": {
+        "params": {
+            "hidden_dim": 128,
+            "learning_rate": 0.0005
+        },
+        "threshold": 0.2735186219215393,
+        "metrics": {
+            "0": {
+                "precision": 0.7289579158316634,
+                "recall": 0.2401981015270326,
+                "f1-score": 0.36133358167256474,
+                "support": 12115.0
+            },
+            "1": {
+                "precision": 0.3200620475698035,
+                "recall": 0.8001846722068329,
+                "f1-score": 0.4572363214266871,
+                "support": 5415.0
+            },
+            "accuracy": 0.41317741015402165,
+            "macro avg": {
+                "precision": 0.5245099817007335,
+                "recall": 0.5201913868669328,
+                "f1-score": 0.4092849515496259,
+                "support": 17530.0
+            },
+            "weighted avg": {
+                "precision": 0.6026503786589325,
+                "recall": 0.41317741015402165,
+                "f1-score": 0.39095784497938574,
+                "support": 17530.0
+            }
+        },
+        "top_5_configs": [
+            {
+                "params": {
+                    "hidden_dim": 128,
+                    "learning_rate": 0.0005
+                },
+                "metric": 0.3703875568193885,
+                "metrics": {
+                    "Val MSE Loss": 0.3703875568193885,
+                    "Val RMSE Loss": 0.608594739395099,
+                    "Val MAE Loss": 0.40274923055981976
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 128,
+                    "learning_rate": 0.001
+                },
+                "metric": 0.3764346899130406,
+                "metrics": {
+                    "Val MSE Loss": 0.3764346899130406,
+                    "Val RMSE Loss": 0.6135427368268983,
+                    "Val MAE Loss": 0.40921282261992115
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 64,
+                    "learning_rate": 0.0005
+                },
+                "metric": 0.37879581183481675,
+                "metrics": {
+                    "Val MSE Loss": 0.37879581183481675,
+                    "Val RMSE Loss": 0.615463899700719,
+                    "Val MAE Loss": 0.4080657337147456
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 64,
+                    "learning_rate": 0.001
+                },
+                "metric": 0.3852288340433286,
+                "metrics": {
+                    "Val MSE Loss": 0.3852288340433286,
+                    "Val RMSE Loss": 0.6206680546341407,
+                    "Val MAE Loss": 0.4163246131860293
+                }
+            },
+            {
+                "params": {
+                    "hidden_dim": 128,
+                    "learning_rate": 0.005
+                },
+                "metric": 0.39503231897759133,
+                "metrics": {
+                    "Val MSE Loss": 0.39503231897759133,
+                    "Val RMSE Loss": 0.6285159655709561,
+                    "Val MAE Loss": 0.42509096421492404
+                }
+            }
+        ]
+    }
+}
