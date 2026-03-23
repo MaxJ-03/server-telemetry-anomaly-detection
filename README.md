@@ -21,7 +21,7 @@ The objective of this project is to design and implement a predictive alerting s
 Initially, I explored the NASA Soil Moisture Active Passive (SMAP) telemetry dataset to proxy these complex systems. However, during the exploratory phase, I discovered a critical structural limitation: most of the telemetry channels contain only a single recorded anomaly sequence. This single-anomaly constraint completely breaks the supervised learning strategy, as a chronological walk-forward split would leave either the training or evaluation set without a failure state to learn from or test against.
 
 **Decision: Adopting the eBay PSM Dataset**
-To resolve this, I pivoted to the Pooled Server Metrics (PSM) dataset released by eBay. This dataset aligns perfectly with cloud-infrastructure challenges and contains multiple, distinct server incidents within the same continuous timeline, fully supporting a rigorous custom walk-forward chronological split.
+To resolve this, I pivoted to the Pooled Server Metrics (PSM) dataset released by eBay. This dataset aligns with cloud-infrastructure challenges and contains multiple, distinct server incidents within the same continuous timeline, fully supporting a rigorous custom walk-forward chronological split.
 
 ## 2. Problem Formulation
 To satisfy the requirement of predicting future incidents based on historical context, I formulated the task using a sliding-window approach:
@@ -30,12 +30,12 @@ To satisfy the requirement of predicting future incidents based on historical co
 
 ## 3. Dataset Splitting Strategy
 **Decision: The 4-Way Chronological Split**
-To rigorously evaluate the system against temporal constraints and prevent data leakage, I partitioned the `test.csv` sequence (which contains the recorded failures) into a strict 4-way chronological split. Standard randomized cross-validation is invalid for time-series data because it leaks future context into the past. 
+To evaluate the system against temporal constraints and prevent data leakage, I partitioned the `test.csv` sequence (which contains the recorded failures) into a strict 4-way chronological split. Standard randomized cross-validation is invalid for time-series data because it leaks future context into the past. 
 
 1. **Training Set (40%):** I utilize this initial sequence to fit the baseline parameters of the supervised models (Tree Ensemble splits and LSTM network weights), allowing them to learn the fundamental failure signatures.
-2. **Validation Set (20%):** Because time-series models cannot use standard K-Fold cross-validation, I use this subsequent timeline strictly for Hyperparameter Optimization (Grid and Randomized Searches). By evaluating against this unseen slice, I select champion architectures that minimize loss without overfitting to the training data.
+2. **Validation Set (20%):** Because time-series models cannot use standard K-Fold cross-validation, I use this subsequent timeline strictly for Hyperparameter Optimization. By evaluating against this unseen slice, I select champion architectures that minimize loss without overfitting to the training data.
 3. **Calibration Set (20%):** I isolate this sequence entirely for operational thresholding. Here, I map raw model logits to empirical probabilities and mathematically identify the exact decision boundary required to satisfy the business requirement of capturing 80% of all true incidents.
-4. **Evaluation Set (20%):** This is the completely blind, future timeline. It is used exclusively for the final performance benchmarking, ensuring the reported classification metrics accurately reflect how the fully calibrated system will perform on novel, unseen data in production.
+4. **Evaluation Set (20%):** This is the completely new, future timeline. It is used exclusively for the final performance benchmarking, ensuring the reported classification metrics accurately reflect how the fully calibrated system will perform on novel, unseen data in production.
 
 ## 4. Evaluation Metrics Strategy
 In highly imbalanced AIOps environments, standard evaluation metrics like Accuracy are dangerously misleading; a model that perpetually predicts "healthy" on a 99% stable server will achieve 99% accuracy while entirely failing its primary engineering purpose. Therefore, I evaluate the architectures using the following specific metrics:
@@ -137,7 +137,7 @@ Because an unsupervised model must strictly learn healthy physics, its execution
 2. **Calibration & Thresholding (`test.csv` - 20% Calibration Split):** To guarantee a mathematically rigorous, apples-to-apples comparison against the supervised models, I route the exact same Calibration split used in Phase One through the Predictive LSTM. The model calculates the residuals, and the system dynamically identifies the residual error magnitude required to hit the 80% recall operational target.
 3. **Evaluation (`test.csv` - 20% Evaluation Split):** The model applies the derived residual threshold to the exact same unseen Evaluation timeline used by the supervised models, dynamically triggering alerts based purely on prediction drift.
 
-### Final Unsupervised Forecasting Results (UNSUPERVISED_LSTM)
+### Final Unsupervised Forecasting Results (PREDICTIVE_LSTM)
 
 <!-- [[PREDICTIVE_LSTM_LEADERBOARD_START]] -->
 
@@ -168,16 +168,16 @@ Because an unsupervised model must strictly learn healthy physics, its execution
 To satisfy the requirements of a real-time production alerting system, the phase two structural paradigm (predictive forecasting combined with continuous residual analysis) must be deployed via a streaming architecture.
 
 **Streaming Inference Architecture**
-The system requires a message broker, such as Apache Kafka or AWS Kinesis, to ingest real-time server telemetry. A stream-processing engine like Apache Flink or Spark Streaming is necessary to maintain the sliding lookback window of $W=30$ in active memory, ensuring the neural network receives dimensionally accurate continuous input tensors.
+The system requires a high-throughput message broker to ingest real-time server telemetry. A stream-processing engine is then necessary to maintain the sliding lookback window of W=30 in active memory, ensuring the neural network receives dimensionally accurate continuous input tensors without computational latency.
 
 **Continuous Preprocessing**
-Adaptive Rolling Standardization must be maintained dynamically. The continuous 24-hour mean and standard deviation matrices need to be stored in an in-memory datastore such as Redis. This ensures that every new data point is instantly normalized against the immediate local baseline to mitigate Data Drift.
+Adaptive Rolling Standardization must be maintained dynamically. The continuous 24-hour mean and standard deviation matrices need to be stored in a low-latency, in-memory datastore. This ensures that every new data point is instantly normalized against the immediate local baseline to successfully mitigate Data Drift in real time.
 
 **Unsupervised Residual Pipeline**
-The Predictive LSTM evaluates the $W=30$ window to output the continuous forecast for the $W+1$ time step. When the physical telemetry for $W+1$ actually arrives from the broker, the system calculates the Mean Absolute Error bounded across all dimensions. If this discrepancy residual breaches the defined statistical boundary, the event is immediately pushed to a downstream Alert Manager like PagerDuty or Prometheus Alertmanager.
+The Predictive LSTM evaluates the W=30 window to output the continuous forecast for the W+1 time step. When the physical telemetry for W+1 actually arrives from the broker, the system calculates the Mean Absolute Error bounded across all dimensions. If this discrepancy residual breaches the defined statistical boundary, the event is immediately pushed to downstream incident management and alerting systems.
 
 **Dynamic Re-Calibration and Feedback**
-Server architectures continuously evolve via capacity increases and deployments. The statistical threshold should not be a static artifact. It is calculated automatically on a rolling, weekly basis against intervals of known healthy telemetry. Additionally, the software engineers can tune the threshold multiplier via an active feedback loop without ever requiring a retraining of the core physics network, definitively solving the labeling bottleneck.
+Server architectures continuously evolve via capacity increases and software deployments. Therefore, the statistical threshold should not be a static artifact. It is calculated automatically on a rolling, weekly basis against intervals of known healthy telemetry. Additionally, software engineers can tune the threshold multiplier via an active feedback loop without ever requiring a retraining of the core physics network, definitively solving the labeling bottleneck.
 
 ## 9. Repository Structure and Dataset Location
 With the architectural logic established, the core engineering is encapsulated into a strictly modular architecture. 
